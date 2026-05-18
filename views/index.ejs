@@ -64,6 +64,7 @@
         justify-content: center;
         box-shadow: inset 0 0 0 2000px rgba(26, 21, 18, 0.45);
         margin-bottom: 2.5rem;
+        position: relative; /* Essential for relative positioning of floating items */
       }
       .banner-text {
         font-family: 'Playfair Display', serif;
@@ -253,6 +254,26 @@
           style="background-image: url('<%= themeBanner %>')"
         >
           <h1 class="banner-text text-center px-3"><%= themeName %></h1>
+
+          <form action="/update-banner" method="POST" enctype="multipart/form-data" id="bannerForm" style="position: absolute; right: 20px; bottom: 20px; z-index: 10;">
+            <input 
+              type="file" 
+              name="bannerImage" 
+              id="bannerFileInput" 
+              accept="image/*" 
+              style="display: none;" 
+              onchange="document.getElementById('bannerForm').submit();" 
+            />
+            <button 
+              type="button" 
+              onclick="document.getElementById('bannerFileInput').click();"
+              style="background: #2a2421; color: #fdfcf7; border: 1px solid rgba(255,255,255,0.2); padding: 7px 14px; border-radius: 4px; font-family: 'Playfair Display', serif; font-size: 0.85rem; display: flex; align-items: center; gap: 6px; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.2); transition: all 0.2s;"
+              onmouseover="this.style.background='#1a1512'; this.style.transform='scale(1.03)';"
+              onmouseout="this.style.background='#2a2421'; this.style.transform='scale(1)';"
+            >
+              📷 Edit Banner Image
+            </button>
+          </form>
         </div>
 
         <div class="container px-4 px-md-5 pb-5">

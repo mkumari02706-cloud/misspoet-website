@@ -28,7 +28,9 @@ const storage = multer.diskStorage({
     cb(null, Date.now() + path.extname(file.originalname));
   },
 });
-const upload = multer({ storage: storage }).single('poemImage');
+
+// Generic multer instance taaki fields dynamic handle ho sakein
+const uploadInstance = multer({ storage: storage });
 
 // 📜 Helper: Read poems from JSON
 const getPoems = () => {
@@ -44,6 +46,22 @@ const savePoems = (poems) => {
   const dataDir = path.join(__dirname, 'data');
   if (!fs.existsSync(dataDir)) fs.mkdirSync(dataDir, { recursive: true });
   fs.writeFileSync(filePath, JSON.stringify(poems, null, 2));
+};
+
+// 🖼️ Helper: Read custom banners from JSON
+const getCustomBanners = () => {
+  const filePath = path.join(__dirname, 'data', 'banners.json');
+  return fs.existsSync(filePath)
+    ? JSON.parse(fs.readFileSync(filePath, 'utf-8'))
+    : {};
+};
+
+// 💾 Helper: Save custom banners to JSON
+const saveCustomBanners = (banners) => {
+  const filePath = path.join(__dirname, 'data', 'banners.json');
+  const dataDir = path.join(__dirname, 'data');
+  if (!fs.existsSync(dataDir)) fs.mkdirSync(dataDir, { recursive: true });
+  fs.writeFileSync(filePath, JSON.stringify(banners, null, 2));
 };
 
 // 📜 All Categories
@@ -140,10 +158,16 @@ const SYSTEM_CATEGORIES = [
 app.get('/', (req, res) => {
   const poemsArray = getPoems();
   const selectedCatId = req.query.category || 'latest';
+  const customBanners = getCustomBanners();
+
   const currentTheme =
     SYSTEM_CATEGORIES.find(
       (c) => c.id.toLowerCase() === selectedCatId.toLowerCase(),
     ) || SYSTEM_CATEGORIES[0];
+
+  // Agar is category ka custom banner hai toh woh dikhao, nahi toh default Unsplash wala
+  const finalBanner =
+    customBanners[selectedCatId.toLowerCase()] || currentTheme.banner;
 
   let filteredPoems = poemsArray;
   if (selectedCatId && selectedCatId !== 'all') {
@@ -158,9 +182,27 @@ app.get('/', (req, res) => {
     poems: filteredPoems,
     categories: SYSTEM_CATEGORIES,
     activeCategory: selectedCatId,
-    themeBanner: currentTheme.banner,
+    themeBanner: finalBanner,
     themeName: currentTheme.name,
   });
+});
+
+// ─────────────────────────────────────────
+// 📸 NEW: Update Banner Route
+// ─────────────────────────────────────────
+app.post('/update-banner', uploadInstance.single('bannerImage'), (req, res) => {
+  try {
+    const activeCat = req.body.activeCategory || 'latest';
+    if (req.file) {
+      const customBanners = getCustomBanners();
+      customBanners[activeCat.toLowerCase()] = `/uploads/${req.file.filename}`;
+      saveCustomBanners(customBanners);
+    }
+    res.redirect('back');
+  } catch (error) {
+    console.error('Banner update error:', error);
+    res.status(500).send('Banner update karne mein koi error aaya.');
+  }
 });
 
 // ─────────────────────────────────────────
@@ -181,7 +223,7 @@ app.get('/dashboard', (req, res) => {
 // ─────────────────────────────────────────
 // 💾 3. Add New Poem (CREATE)
 // ─────────────────────────────────────────
-app.post('/add-poem', upload, (req, res) => {
+app.post('/add-poem', uploadInstance.single('poemImage'), (req, res) => {
   const poemsArray = getPoems();
 
   const newPoem = {
@@ -203,16 +245,21 @@ app.post('/add-poem', upload, (req, res) => {
 // ─────────────────────────────────────────
 app.get('/poem/:id', (req, res) => {
   const poemsArray = getPoems();
-  // FIXED: Changed === to == for data type dynamic matching
   const poem = poemsArray.find((p) => p.id == req.params.id);
   if (!poem) return res.status(404).send('Poem not found');
+
+  const customBanners = getCustomBanners();
+  const defaultBanner =
+    SYSTEM_CATEGORIES.find((c) => c.id === poem.category)?.banner ||
+    SYSTEM_CATEGORIES[0].banner;
+  const finalBanner =
+    customBanners[poem.category.toLowerCase()] || defaultBanner;
+
   res.render('poem', {
     poem,
     categories: SYSTEM_CATEGORIES,
     activeCategory: poem.category,
-    themeBanner:
-      SYSTEM_CATEGORIES.find((c) => c.id === poem.category)?.banner ||
-      SYSTEM_CATEGORIES[0].banner,
+    themeBanner: finalBanner,
     themeName: poem.title,
   });
 });
@@ -222,7 +269,6 @@ app.get('/poem/:id', (req, res) => {
 // ─────────────────────────────────────────
 app.get('/edit/:id', (req, res) => {
   const poemsArray = getPoems();
-  // FIXED: Changed === to == for data type dynamic matching
   const poem = poemsArray.find((p) => p.id == req.params.id);
   if (!poem) return res.status(404).send('Poem not found');
   res.render('edit', {
@@ -238,9 +284,8 @@ app.get('/edit/:id', (req, res) => {
 // ─────────────────────────────────────────
 // 💫 6. Save Edited Poem (UPDATE - POST)
 // ─────────────────────────────────────────
-app.post('/update/:id', upload, (req, res) => {
+app.post('/update/:id', uploadInstance.single('poemImage'), (req, res) => {
   const poemsArray = getPoems();
-  // FIXED: Changed === to == for data type dynamic matching
   const index = poemsArray.findIndex((p) => p.id == req.params.id);
   if (index === -1) return res.status(404).send('Poem not found');
 
@@ -261,7 +306,6 @@ app.post('/update/:id', upload, (req, res) => {
 // ─────────────────────────────────────────
 app.post('/delete/:id', (req, res) => {
   let poemsArray = getPoems();
-  // FIXED: Changed !== to != for flexible string/number type matching
   poemsArray = poemsArray.filter((p) => p.id != req.params.id);
   savePoems(poemsArray);
   res.redirect('/dashboard');
