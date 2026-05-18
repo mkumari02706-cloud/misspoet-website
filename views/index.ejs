@@ -5,101 +5,72 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Miss Poet Collection 📜</title>
     <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/dist/css/bootstrap.min.css"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
       rel="stylesheet"
     />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Montserrat:wght@300;400;500&display=swap"
+      href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Playfair+Display:ital,wght@0,400;0,600&display=swap"
       rel="stylesheet"
     />
-
     <style>
       body {
-        font-family: 'Playfair Display', serif;
+        font-family: 'EB Garamond', serif;
         background-color: #fdfcf7;
         color: #2a2421;
-        margin: 0;
-        padding: 0;
       }
-
-      /* ✨ LUXURY MAGAZINE NAVBAR STYLING (Fixed Title & Alignment) */
       .aesthetic-header {
-        background-color: #ffffff;
-        border-bottom: 1px solid rgba(0, 0, 0, 0.06);
-        padding: 1.5rem 3rem !important;
+        background-color: #fcfbfa;
+        border-bottom: 1px solid rgba(112, 83, 53, 0.1);
+        letter-spacing: 2px;
       }
       .brand-title {
-        font-family: 'Cinzel', serif;
-        font-weight: 500;
+        font-family: 'Playfair Display', serif;
+        font-weight: 600;
         letter-spacing: 4px;
-        color: #1a1512 !important;
+        color: #1a1512;
         text-transform: uppercase;
-        font-size: 1.7rem;
         text-decoration: none;
       }
-      .nav-links-right {
-        display: flex;
-        align-items: center;
-        gap: 2.5rem;
-      }
-      .nav-links-right a.nav-item-link {
-        font-family: 'Montserrat', sans-serif;
-        font-weight: 500;
-        letter-spacing: 2px;
-        font-size: 0.85rem;
-        text-transform: uppercase;
-        color: #1a1512 !important;
-        text-decoration: none;
-      }
-
-      /* ✒️ SPILL INK PREMIUM MINIMAL BADGE */
-      .btn-spill-ink {
-        font-family: 'Montserrat', sans-serif;
-        font-weight: 400;
-        font-size: 0.8rem;
-        letter-spacing: 2px;
-        text-transform: uppercase;
-        color: #705335 !important;
-        border: 1px solid rgba(112, 83, 53, 0.25);
-        padding: 7px 18px;
-        text-decoration: none;
-        transition: all 0.2s ease;
-        background-color: transparent;
-      }
-      .btn-spill-ink:hover {
-        background-color: #705335;
-        color: #ffffff !important;
-        border-color: #705335;
-      }
-
-      /* Main Structure Layout */
       .journal-wrapper {
         display: flex;
-        min-height: calc(100vh - 85px);
+        min-height: calc(100vh - 75px);
       }
-
-      /* Left Sidebar Theme Selector */
       .sidebar-panel {
-        width: 280px;
-        background-color: #fcfbfa;
-        border-right: 1px solid rgba(112, 83, 53, 0.06);
-        padding: 2.5rem 1.5rem;
+        width: 270px;
+        background-color: #f8f6f0;
+        border-right: 1px solid rgba(112, 83, 53, 0.08);
+        padding: 2rem 1.2rem;
         position: sticky;
-        top: 85px;
-        height: calc(100vh - 85px);
+        top: 75px;
+        height: calc(100vh - 75px);
         overflow-y: auto;
       }
-      .sidebar-title {
-        font-family: 'Montserrat', sans-serif;
+      .sidebar-panel::-webkit-scrollbar {
+        width: 3px;
+      }
+      .sidebar-panel::-webkit-scrollbar-thumb {
+        background: rgba(112, 83, 53, 0.1);
+      }
+      .main-canvas {
+        flex-grow: 1;
+        padding: 0;
+      }
+      .dynamic-banner {
+        height: 250px;
+        background-size: cover;
+        background-position: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: inset 0 0 0 2000px rgba(26, 21, 18, 0.45);
+        margin-bottom: 2.5rem;
+      }
+      .banner-text {
+        font-family: 'Playfair Display', serif;
+        color: #fdfcf7;
+        font-size: 2.3rem;
+        letter-spacing: 4px;
         text-transform: uppercase;
-        letter-spacing: 2px;
-        color: #8c7662;
-        font-size: 0.75rem;
-        font-weight: 600;
-        margin-bottom: 1.5rem;
-        padding-left: 10px;
       }
       .nav-vibe-list {
         list-style: none;
@@ -107,101 +78,114 @@
         margin: 0;
       }
       .nav-vibe-link {
-        font-family: 'Playfair Display', serif;
-        color: #554a42;
+        color: #6e5d53;
         text-decoration: none;
-        font-size: 1.1rem;
-        display: block;
-        padding: 10px 14px;
+        font-size: 1.05rem;
+        display: flex;
+        align-items: center;
+        padding: 8px 12px;
         border-radius: 4px;
-        transition: all 0.2s ease;
-        margin-bottom: 4px;
+        transition: all 0.2s;
       }
       .nav-vibe-link:hover,
       .nav-vibe-link.active {
-        background-color: #f4efe6;
+        background-color: #f1ede2;
         color: #1a1512;
+        transform: translateX(4px);
         font-weight: 500;
       }
 
-      /* Right Content Canvas */
-      .main-canvas {
-        flex-grow: 1;
-        background-color: #fdfcf7;
-      }
-      .dynamic-banner {
-        height: 260px;
-        background-size: cover;
-        background-position: center;
-        position: relative;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin-bottom: 3rem;
-        box-shadow: inset 0 0 0 2000px rgba(26, 21, 18, 0.4);
-      }
-      .banner-text {
-        font-family: 'Cinzel', serif;
-        color: #ffffff;
-        font-size: 2.5rem;
-        letter-spacing: 6px;
-        text-transform: uppercase;
-        font-weight: 400;
-      }
-
-      /* Poetry Cards Core */
-      .poems-container {
-        max-width: 1000px;
-        margin: 0 auto;
-        padding: 0 2rem 5rem 2rem;
-      }
-      .poems-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
-        gap: 3rem;
-      }
+      /* ✨ LUXURY POEM CARD STYLES */
       .poem-card {
         background: #ffffff;
-        border: 1px solid rgba(112, 83, 53, 0.05);
-        padding: 3.5rem 2.5rem;
-        box-shadow: 0 10px 35px rgba(112, 83, 53, 0.02);
+        border: 1px solid rgba(112, 83, 53, 0.1);
+        border-radius: 6px;
+        padding: 2.5rem;
+        margin-bottom: 2.5rem;
+        box-shadow: 0 4px 15px rgba(112, 83, 53, 0.02);
       }
       .poem-title {
-        font-family: 'Cinzel', serif;
+        font-family: 'Playfair Display', serif;
         font-size: 1.8rem;
         color: #1a1512;
-        font-weight: 500;
-        margin-bottom: 0.5rem;
       }
-      .poem-date {
-        font-family: 'Montserrat', sans-serif;
-        font-size: 0.75rem;
-        color: #a08c7c;
-        text-transform: uppercase;
-        margin-bottom: 2rem;
-        letter-spacing: 1.5px;
-      }
-      .poem-body {
-        font-family: 'Playfair Display', serif;
-        font-size: 1.3rem;
-        line-height: 1.9;
-        color: #2e2724;
-        white-space: pre-line;
-        text-align: center;
+      .poem-body-preview {
+        font-size: 1.2rem;
+        line-height: 1.8;
+        color: #3a322d;
         font-style: italic;
-      }
-      .poem-img-wrapper {
-        background: #ffffff;
-        padding: 8px;
-        border: 1px solid rgba(112, 83, 53, 0.08);
-        margin-bottom: 1.5rem;
-      }
-      .poem-img-wrapper img {
-        width: 100%;
-        height: auto;
+        white-space: pre-line;
       }
 
-      @media (max-width: 992px) {
+      /* 📸 PERFECT IMAGE BOX SIZING (Fixes background block look) */
+      .poem-img-container {
+        max-width: 480px;
+        margin: 1.5rem auto;
+        border-radius: 6px;
+        overflow: hidden;
+        border: 1px solid rgba(112, 83, 53, 0.15);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      }
+      .poem-img-container img {
+        width: 100%;
+        max-height: 320px;
+        object-fit: cover;
+        display: block;
+      }
+
+      .read-full-btn {
+        font-family: 'Playfair Display', serif;
+        color: #2a2421;
+        text-decoration: none;
+        font-weight: bold;
+        letter-spacing: 1px;
+        font-size: 0.95rem;
+        display: inline-block;
+        border-bottom: 1px solid #2a2421;
+        padding-bottom: 2px;
+        transition: all 0.2s;
+      }
+      .read-full-btn:hover {
+        color: #6e5d53;
+        border-color: #6e5d53;
+      }
+
+      .empty-state {
+        text-align: center;
+        padding: 5rem 0;
+        color: #9e8e84;
+      }
+      .empty-state p {
+        font-size: 1.3rem;
+        font-style: italic;
+      }
+      .btn-write {
+        display: inline-block;
+        margin-top: 1rem;
+        padding: 8px 28px;
+        border: 1px solid #2a2421;
+        color: #2a2421;
+        text-decoration: none;
+        font-family: 'Playfair Display', serif;
+        letter-spacing: 2px;
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        transition: all 0.2s;
+      }
+      .btn-write:hover {
+        background: #2a2421;
+        color: #fdfcf7;
+      }
+      footer {
+        background-color: #f8f6f0;
+        border-top: 1px solid rgba(112, 83, 53, 0.1);
+        padding: 2rem;
+        text-align: center;
+        color: #9e8e84;
+        font-size: 0.9rem;
+        font-style: italic;
+      }
+      @media (max-width: 768px) {
         .journal-wrapper {
           flex-direction: column;
         }
@@ -210,46 +194,51 @@
           height: auto;
           position: relative;
           top: 0;
-          padding: 1.5rem;
         }
-        .poems-grid {
-          grid-template-columns: 1fr;
-        }
-        .aesthetic-header {
-          padding: 1rem 1.5rem !important;
+        .banner-text {
+          font-size: 1.5rem;
         }
       }
     </style>
   </head>
   <body>
-    <nav class="navbar aesthetic-header sticky-top m-0">
-      <div
-        class="container-fluid p-0 d-flex align-items-center justify-content-between"
-      >
-        <a class="brand-title" href="/">Miss Poet Collection</a>
-        <div class="nav-links-right">
-          <a href="/" class="nav-item-link">Home</a>
-          <a href="/dashboard" class="btn-spill-ink">+ Spill Ink</a>
+    <nav class="navbar navbar-expand-lg aesthetic-header sticky-top py-3">
+      <div class="container-fluid px-4">
+        <a class="navbar-brand brand-title" href="/">Miss Poet Collection</a>
+        <div
+          class="d-flex gap-4 ms-auto text-uppercase small"
+          style="letter-spacing: 1.5px; font-size: 0.8rem"
+        >
+          <a href="/" class="text-decoration-none text-dark fw-medium">Home</a>
+          <a href="/dashboard" class="text-decoration-none text-muted"
+            >✒️ Spill Ink</a
+          >
         </div>
       </div>
     </nav>
 
     <div class="journal-wrapper">
       <aside class="sidebar-panel">
-        <div class="sidebar-title">Poem Themes</div>
-        <ul class="nav-vibe-list">
+        <h6
+          class="text-uppercase text-muted small mb-3"
+          style="letter-spacing: 2px"
+        >
+          Poem Themes
+        </h6>
+        <ul class="nav-vibe-list d-flex flex-column gap-1">
           <li>
             <a
-              href="/"
-              class="nav-vibe-link <%= activeCategory === 'latest' ? 'active' : '' %>"
-              >✨ All Collections</a
+              href="/?category=all"
+              class="nav-vibe-link <%= (typeof activeCategory !== 'undefined' && activeCategory === 'all') ? 'active' : '' %>"
             >
+              ✨ All Collections
+            </a>
           </li>
           <% categories.forEach(function(cat) { %>
           <li>
             <a
               href="/?category=<%= cat.id %>"
-              class="nav-vibe-link <%= activeCategory === cat.id ? 'active' : '' %>"
+              class="nav-vibe-link <%= (typeof activeCategory !== 'undefined' && activeCategory === cat.id) ? 'active' : '' %>"
             >
               <%= cat.name %>
             </a>
@@ -266,43 +255,56 @@
           <h1 class="banner-text text-center px-3"><%= themeName %></h1>
         </div>
 
-        <div class="poems-container">
-          <% if (poems.length === 0) { %>
-          <div class="text-center py-5 text-muted">
-            <p class="fs-4" style="font-style: italic">
-              This chapter is empty. No verses crafted here yet.
-            </p>
-            <a
-              href="/dashboard"
-              class="btn btn-sm btn-outline-dark mt-3 text-uppercase px-4"
-              style="
-                letter-spacing: 1.5px;
-                font-family: 'Montserrat', sans-serif;
-                font-size: 0.75rem;
-              "
-              >Go Write Entry</a
-            >
-          </div>
-          <% } else { %>
-          <div class="poems-grid">
-            <% poems.forEach(function(poem) { %>
-            <article class="poem-card">
-              <h2 class="poem-title text-center"><%= poem.title %></h2>
-              <div class="poem-date text-center">Dated: <%= poem.date %></div>
-
-              <% if (poem.image) { %>
-              <div class="poem-img-wrapper">
-                <img src="<%= poem.image %>" alt="Poetry Snapshot" />
+        <div class="container px-4 px-md-5 pb-5">
+          <div class="row justify-content-center">
+            <div class="col-lg-9">
+              <% if (poems.length === 0) { %>
+              <div class="empty-state">
+                <p>This chapter is empty. No verses crafted here yet.</p>
+                <a href="/dashboard" class="btn-write">Go Write Entry</a>
               </div>
-              <% } %>
 
-              <div class="poem-body mx-auto"><%= poem.body %></div>
-            </article>
-            <% }); %>
+              <% } else { %>
+              <% poems.forEach(function(poem) { %>
+
+              <article class="poem-card text-center">
+                <h2 class="poem-title mb-1"><%= poem.title %></h2>
+                <p class="text-muted small mb-4" style="font-style: italic">
+                  Dated: <%= poem.date %>
+                </p>
+
+                <% if (poem.image) { %>
+                <div class="poem-img-container">
+                  <img src="<%= poem.image %>" alt="Poetry Visual" />
+                </div>
+                <% } %>
+
+                <div
+                  class="poem-body-preview mx-auto my-3"
+                  style="max-width: 600px"
+                >
+                  <%= poem.body ? poem.body.substring(0, 120) + '...' : '' %>
+                </div>
+
+                <div class="mt-3">
+                  <a href="/poem/<%= poem.id %>" class="read-full-btn"
+                    >Read Full Verse →</a
+                  >
+                </div>
+              </article>
+
+              <% }); %>
+              <% } %>
+            </div>
           </div>
-          <% } %>
         </div>
       </main>
     </div>
+
+    <footer>
+      <p class="mb-0">Miss Poet Collection &mdash; Every word, a world. ✨</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   </body>
 </html>

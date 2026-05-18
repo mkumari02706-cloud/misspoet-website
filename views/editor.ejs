@@ -6,45 +6,37 @@
     <a href="/dashboard" class="classic-link">← Back to Desk</a>
   </div>
 
-  <h2 class="fw-normal mb-4 text-center">Pen a New Verse</h2>
+  <h2 class="fw-normal mb-4 text-center">Edit Your Verse</h2>
 
-  <form action="/add-poem" method="POST" class="mt-4">
+  <form action="/update/<%= poem.id %>" method="POST" class="mt-4" enctype="multipart/form-data">
+
     <div class="mb-4">
-      <label
-        class="text-uppercase text-muted small tracking-widest d-block mb-1"
-        style="font-size: 0.75rem"
-        >Title of the Verse</label
-      >
+      <label class="text-uppercase text-muted small tracking-widest d-block mb-1"
+        style="font-size: 0.75rem">Title of the Verse</label>
       <input
         type="text"
         name="title"
         class="form-control classic-input"
-        placeholder="e.g., Midnight Melancholy"
+        value="<%= poem.title %>"
         required
       />
     </div>
 
     <div class="mb-4">
-      <label
-        class="text-uppercase text-muted small tracking-widest d-block mb-1"
-        style="font-size: 0.75rem"
-        >Category / Mood</label
-      >
-      <input
-        type="text"
-        name="category"
-        class="form-control classic-input"
-        placeholder="e.g., Love, Solitude, Life"
-        required
-      />
+      <label class="text-uppercase text-muted small tracking-widest d-block mb-1"
+        style="font-size: 0.75rem">Category / Mood</label>
+      <select name="category" class="form-control classic-input">
+        <% categories.forEach(cat => { %>
+          <option value="<%= cat.id %>" <%= poem.category === cat.id ? 'selected' : '' %>>
+            <%= cat.name %>
+          </option>
+        <% }) %>
+      </select>
     </div>
 
     <div class="mb-4">
-      <label
-        class="text-uppercase text-muted small tracking-widest d-block mb-2"
-        style="font-size: 0.75rem"
-        >Pour your heart out</label
-      >
+      <label class="text-uppercase text-muted small tracking-widest d-block mb-2"
+        style="font-size: 0.75rem">Pour your heart out</label>
       <textarea
         name="body"
         rows="10"
@@ -60,9 +52,8 @@
           line-height: 1.8;
           color: #3d352e;
         "
-        placeholder="Write your poem here..."
         required
-      ></textarea>
+      ><%= poem.body %></textarea>
     </div>
 
     <div class="text-center mt-5">
@@ -71,9 +62,14 @@
         class="btn btn-dark rounded-0 px-5 py-2 text-uppercase small"
         style="letter-spacing: 2px; background-color: #2c2520"
       >
-        Publish to Journal
+        Save Changes
       </button>
+      <a href="/dashboard" class="btn btn-outline-secondary rounded-0 px-4 py-2 ms-3 text-uppercase small"
+        style="letter-spacing: 2px">
+        Cancel
+      </a>
     </div>
+
   </form>
 </div>
 

@@ -8,7 +8,16 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.set('view engine', 'ejs');
 
-// 📸 Multer Image Upload Configuration Setup
+// Method override for PUT/DELETE from forms
+app.use((req, res, next) => {
+  if (req.body && req.body._method) {
+    req.method = req.body._method;
+    delete req.body._method;
+  }
+  next();
+});
+
+// 📸 Multer Image Upload Configuration
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     const dir = './public/uploads/';
@@ -19,10 +28,25 @@ const storage = multer.diskStorage({
     cb(null, Date.now() + path.extname(file.originalname));
   },
 });
-
 const upload = multer({ storage: storage }).single('poemImage');
 
-// 📜 All Predefined & Premium Custom Categories List
+// 📜 Helper: Read poems from JSON
+const getPoems = () => {
+  const filePath = path.join(__dirname, 'data', 'database.json');
+  return fs.existsSync(filePath)
+    ? JSON.parse(fs.readFileSync(filePath, 'utf-8'))
+    : [];
+};
+
+// 📝 Helper: Write poems to JSON
+const savePoems = (poems) => {
+  const filePath = path.join(__dirname, 'data', 'database.json');
+  const dataDir = path.join(__dirname, 'data');
+  if (!fs.existsSync(dataDir)) fs.mkdirSync(dataDir, { recursive: true });
+  fs.writeFileSync(filePath, JSON.stringify(poems, null, 2));
+};
+
+// 📜 All Categories
 const SYSTEM_CATEGORIES = [
   {
     id: 'latest',
@@ -52,7 +76,7 @@ const SYSTEM_CATEGORIES = [
     id: 'classics',
     name: 'Classics',
     banner:
-      'https://images.unsplash.com/photo-1457369804613-52c61a468e7d?q=80&w=1200',
+      'https://images.unsplash.com/photo-14457369804613-52c61a468e7d?q=80&w=1200',
   },
   {
     id: 'college life',
@@ -110,13 +134,11 @@ const SYSTEM_CATEGORIES = [
   },
 ];
 
-// 🏠 1. Home Feed Page Route
+// ─────────────────────────────────────────
+// 🏠 1. Home Feed
+// ─────────────────────────────────────────
 app.get('/', (req, res) => {
-  const filePath = path.join(__dirname, 'data', 'database.json');
-  const poemsArray = fs.existsSync(filePath)
-    ? JSON.parse(fs.readFileSync(filePath, 'utf-8'))
-    : [];
-
+  const poemsArray = getPoems();
   const selectedCatId = req.query.category || 'latest';
   const currentTheme =
     SYSTEM_CATEGORIES.find(
@@ -141,34 +163,26 @@ app.get('/', (req, res) => {
   });
 });
 
-// ✒️ 2. Creator's Desk Workspace Route (FIXED: Added missing layout parameters)
+// ─────────────────────────────────────────
+// ✒️ 2. Dashboard / Creator's Desk
+// ─────────────────────────────────────────
 app.get('/dashboard', (req, res) => {
-  const filePath = path.join(__dirname, 'data', 'database.json');
-  const poemsArray = fs.existsSync(filePath)
-    ? JSON.parse(fs.readFileSync(filePath, 'utf-8'))
-    : [];
-
-  // Dashboard ke liye default premium workspace layout variables pass kiye
+  const poemsArray = getPoems();
   res.render('dashboard', {
     poems: poemsArray,
     categories: SYSTEM_CATEGORIES,
     activeCategory: 'dashboard',
     themeBanner:
-      'https://images.unsplash.com/photo-1455390582262-044cdead277a?q=80&w=1200', // Vintage desk image
+      'https://images.unsplash.com/photo-1455390582262-044cdead277a?q=80&w=1200',
     themeName: "Creator's Desk Workspace",
   });
 });
 
-// 💾 3. Save Combined Poem Entry (Text or Image Files)
+// ─────────────────────────────────────────
+// 💾 3. Add New Poem (CREATE)
+// ─────────────────────────────────────────
 app.post('/add-poem', upload, (req, res) => {
-  const filePath = path.join(__dirname, 'data', 'database.json');
-
-  const dataDir = path.join(__dirname, 'data');
-  if (!fs.existsSync(dataDir)) fs.mkdirSync(dataDir, { recursive: true });
-
-  const poemsArray = fs.existsSync(filePath)
-    ? JSON.parse(fs.readFileSync(filePath, 'utf-8'))
-    : [];
+  const poemsArray = getPoems();
 
   const newPoem = {
     id: Date.now().toString(),
@@ -180,11 +194,80 @@ app.post('/add-poem', upload, (req, res) => {
   };
 
   poemsArray.unshift(newPoem);
-  fs.writeFileSync(filePath, JSON.stringify(poemsArray, null, 2));
-  res.redirect('/');
+  savePoems(poemsArray);
+  res.redirect('/dashboard');
 });
 
-// 🚀 Stable Server Port Listener
+// ─────────────────────────────────────────
+// 📖 4. Read Single Poem (READ)
+// ─────────────────────────────────────────
+app.get('/poem/:id', (req, res) => {
+  const poemsArray = getPoems();
+  // FIXED: Changed === to == for data type dynamic matching
+  const poem = poemsArray.find((p) => p.id == req.params.id);
+  if (!poem) return res.status(404).send('Poem not found');
+  res.render('poem', {
+    poem,
+    categories: SYSTEM_CATEGORIES,
+    activeCategory: poem.category,
+    themeBanner:
+      SYSTEM_CATEGORIES.find((c) => c.id === poem.category)?.banner ||
+      SYSTEM_CATEGORIES[0].banner,
+    themeName: poem.title,
+  });
+});
+
+// ─────────────────────────────────────────
+// ✏️ 5. Edit Poem Page (UPDATE - GET)
+// ─────────────────────────────────────────
+app.get('/edit/:id', (req, res) => {
+  const poemsArray = getPoems();
+  // FIXED: Changed === to == for data type dynamic matching
+  const poem = poemsArray.find((p) => p.id == req.params.id);
+  if (!poem) return res.status(404).send('Poem not found');
+  res.render('edit', {
+    poem,
+    categories: SYSTEM_CATEGORIES,
+    activeCategory: 'dashboard',
+    themeBanner:
+      'https://images.unsplash.com/photo-1455390582262-044cdead277a?q=80&w=1200',
+    themeName: 'Edit Verse',
+  });
+});
+
+// ─────────────────────────────────────────
+// 💫 6. Save Edited Poem (UPDATE - POST)
+// ─────────────────────────────────────────
+app.post('/update/:id', upload, (req, res) => {
+  const poemsArray = getPoems();
+  // FIXED: Changed === to == for data type dynamic matching
+  const index = poemsArray.findIndex((p) => p.id == req.params.id);
+  if (index === -1) return res.status(404).send('Poem not found');
+
+  poemsArray[index] = {
+    ...poemsArray[index],
+    title: req.body.title || poemsArray[index].title,
+    category: req.body.category || poemsArray[index].category,
+    body: req.body.body || poemsArray[index].body,
+    image: req.file ? `/uploads/${req.file.filename}` : poemsArray[index].image,
+  };
+
+  savePoems(poemsArray);
+  res.redirect('/dashboard');
+});
+
+// ─────────────────────────────────────────
+// 🗑️ 7. Delete Poem (DELETE - POST)
+// ─────────────────────────────────────────
+app.post('/delete/:id', (req, res) => {
+  let poemsArray = getPoems();
+  // FIXED: Changed !== to != for flexible string/number type matching
+  poemsArray = poemsArray.filter((p) => p.id != req.params.id);
+  savePoems(poemsArray);
+  res.redirect('/dashboard');
+});
+
+// 🚀 Server Start
 app.listen(3000, () => {
-  console.log('Server active beautifully on port 3000 ✨');
+  console.log('Miss Poet server running beautifully on port 3000 ✨');
 });
