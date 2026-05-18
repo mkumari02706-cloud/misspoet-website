@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Creator's Desk | Miss Poet Collection 📜</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Playfair+Display:ital,wght@0,400;0,600&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      body {
+        font-family: 'EB Garamond', serif;
+        background-color: #fdfcf7;
+        color: #2a2421;
+      }
+      .aesthetic-header {
+        background-color: #fcfbfa;
+        border-bottom: 1px solid rgba(112, 83, 53, 0.1);
+        letter-spacing: 2px;
+      }
+      .brand-title {
+        font-family: 'Playfair Display', serif;
+        font-weight: 600;
+        letter-spacing: 4px;
+        color: #1a1512;
+        text-transform: uppercase;
+      }
+      .journal-wrapper {
+        display: flex;
+        min-height: calc(100vh - 75px);
+      }
+      .sidebar-panel {
+        width: 270px;
+        background-color: #f8f6f0;
+        border-right: 1px solid rgba(112, 83, 53, 0.08);
+        padding: 2rem 1.2rem;
+        position: sticky;
+        top: 75px;
+        height: calc(100vh - 75px);
+        overflow-y: auto;
+      }
+      .main-canvas {
+        flex-grow: 1;
+        padding: 0;
+      }
+      .dynamic-banner {
+        height: 180px;
+        background-size: cover;
+        background-position: center;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: inset 0 0 0 2000px rgba(26, 21, 18, 0.45);
+        margin-bottom: 2rem;
+      }
+      .banner-text {
+        font-family: 'Playfair Display', serif;
+        color: #fdfcf7;
+        font-size: 2rem;
+        letter-spacing: 4px;
+        text-transform: uppercase;
+      }
+      .nav-vibe-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+      .nav-vibe-link {
+        color: #6e5d53;
+        text-decoration: none;
+        font-size: 1.05rem;
+        display: flex;
+        align-items: center;
+        padding: 8px 12px;
+        border-radius: 4px;
+        transition: all 0.2s;
+      }
+      .nav-vibe-link:hover,
+      .nav-vibe-link.active {
+        background-color: #f1ede2;
+        color: #1a1512;
+      }
+      .workspace-card {
+        background: #ffffff;
+        border: 1px solid rgba(112, 83, 53, 0.1);
+        border-radius: 4px;
+        padding: 2.5rem;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+      }
+      .form-control,
+      .form-select {
+        background-color: #fdfcf7;
+        border: 1px solid rgba(112, 83, 53, 0.15);
+        border-radius: 4px;
+        font-size: 1.1rem;
+      }
+      .form-control:focus,
+      .form-select:focus {
+        background-color: #ffffff;
+        border-color: #6e5d53;
+        box-shadow: none;
+      }
+      .btn-submit {
+        background-color: #2a2421;
+        color: #fdfcf7;
+        border: none;
+        padding: 10px 30px;
+        font-family: 'Playfair Display', serif;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        transition: all 0.2s;
+      }
+      .btn-submit:hover {
+        background-color: #4a3f39;
+        color: #ffffff;
+      }
+      @media (max-width: 768px) {
+        .journal-wrapper {
+          flex-direction: column;
+        }
+        .sidebar-panel {
+          width: 100%;
+          height: auto;
+          position: relative;
+          top: 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg aesthetic-header sticky-top py-3">
+      <div class="container-fluid px-4">
+        <a class="navbar-brand brand-title" href="/">Miss Poet Collection</a>
+        <div
+          class="d-flex gap-4 ms-auto text-uppercase small"
+          style="letter-spacing: 1.5px; font-size: 0.8rem"
+        >
+          <a href="/" class="text-decoration-none text-muted hover-dark"
+            >Home</a
+          >
+          <a href="/dashboard" class="text-decoration-none text-dark fw-medium"
+            >✒️ Creator's Desk</a
+          >
+        </div>
+      </div>
+    </nav>
+
+    <div class="journal-wrapper">
+      <aside class="sidebar-panel">
+        <h6
+          class="text-uppercase tracking-wider text-muted small mb-3"
+          style="letter-spacing: 2px"
+        >
+          Navigation
+        </h6>
+        <ul class="nav-vibe-list d-flex flex-column gap-1">
+          <li><a href="/" class="nav-vibe-link">← Back to Feed</a></li>
+          <li>
+            <a href="/dashboard" class="nav-vibe-link active">✒️ Workspace</a>
+          </li>
+        </ul>
+      </aside>
+
+      <main class="main-canvas">
+        <div
+          class="dynamic-banner"
+          style="background-image: url('<%= themeBanner %>')"
+        >
+          <h1 class="banner-text text-center px-3"><%= themeName %></h1>
+        </div>
+
+        <div class="container px-4 px-md-5 pb-5">
+          <div class="row justify-content-center">
+            <div class="col-lg-8">
+              <div class="workspace-card">
+                <h3
+                  class="mb-4 text-center"
+                  style="
+                    font-family: 'Playfair Display', serif;
+                    letter-spacing: 1px;
+                  "
+                >
+                  Spill Your Ink
+                </h3>
+
+                <form
+                  action="/add-poem"
+                  method="POST"
+                  enctype="multipart/form-data"
+                >
+                  <div class="mb-3">
+                    <label
+                      class="form-label text-muted small text-uppercase fw-bold"
+                      style="letter-spacing: 1px"
+                      >Verse Title</label
+                    >
+                    <input
+                      type="text"
+                      name="title"
+                      class="form-control"
+                      placeholder="What shall we call this masterpiece?"
+                      required
+                    />
+                  </div>
+
+                  <div class="mb-3">
+                    <label
+                      class="form-label text-muted small text-uppercase fw-bold"
+                      style="letter-spacing: 1px"
+                      >Select Theme / Category</label
+                    >
+                    <select name="category" class="form-select" required>
+                      <% categories.forEach(function(cat) { %>
+                      <option value="<%= cat.id %>"><%= cat.name %></option>
+                      <% }); %>
+                    </select>
+                  </div>
+
+                  <div class="mb-3">
+                    <label
+                      class="form-label text-muted small text-uppercase fw-bold"
+                      style="letter-spacing: 1px"
+                      >Attach Visual (Optional Image)</label
+                    >
+                    <input
+                      type="file"
+                      name="poemImage"
+                      class="form-control"
+                      accept="image/*"
+                    />
+                  </div>
+
+                  <div class="mb-4">
+                    <label
+                      class="form-label text-muted small text-uppercase fw-bold"
+                      style="letter-spacing: 1px"
+                      >The Poetry / Description</label
+                    >
+                    <textarea
+                      name="body"
+                      class="form-control"
+                      rows="8"
+                      placeholder="Pour your soul into lines here..."
+                      required
+                    ></textarea>
+                  </div>
+
+                  <div class="text-center">
+                    <button type="submit" class="btn btn-submit shadow-sm">
+                      Publish to Journal
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </body>
+</html>

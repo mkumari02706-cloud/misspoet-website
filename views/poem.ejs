@@ -1,0 +1,35 @@
+<%- include('partials/header') %>
+<%- include('partials/navbar') %>
+
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <!-- Back to Home Button -->
+      <a href="/" class="btn btn-light mb-4">← Back to Collection</a>
+
+      <article class="p-5 bg-white rounded shadow-sm border">
+        <!-- Category Badge -->
+        <span class="badge bg-secondary mb-3 text-uppercase"
+          ><%= poem.category %></span
+        >
+
+        <!-- Poem Title -->
+        <h1 class="display-4 fw-bold mb-3"><%= poem.title %></h1>
+
+        <!-- Date -->
+        <p class="text-muted small">Published on: <%= poem.date %></p>
+        <hr class="my-4" />
+
+        <!-- Poem Body (CSS white-space yahan zaroori hai line breaks ke liye) -->
+        <div
+          class="fs-5 lead"
+          style="white-space: pre-line; line-height: 1.8; font-style: italic"
+        >
+          <%= poem.body %>
+        </div>
+      </article>
+    </div>
+  </div>
+</div>
+
+<%- include('partials/footer') %>

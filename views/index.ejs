@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Miss Poet Collection 📜</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Montserrat:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      body {
+        font-family: 'Playfair Display', serif;
+        background-color: #fdfcf7;
+        color: #2a2421;
+        margin: 0;
+        padding: 0;
+      }
+
+      /* ✨ LUXURY MAGAZINE NAVBAR STYLING (Fixed Title & Alignment) */
+      .aesthetic-header {
+        background-color: #ffffff;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+        padding: 1.5rem 3rem !important;
+      }
+      .brand-title {
+        font-family: 'Cinzel', serif;
+        font-weight: 500;
+        letter-spacing: 4px;
+        color: #1a1512 !important;
+        text-transform: uppercase;
+        font-size: 1.7rem;
+        text-decoration: none;
+      }
+      .nav-links-right {
+        display: flex;
+        align-items: center;
+        gap: 2.5rem;
+      }
+      .nav-links-right a.nav-item-link {
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 500;
+        letter-spacing: 2px;
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        color: #1a1512 !important;
+        text-decoration: none;
+      }
+
+      /* ✒️ SPILL INK PREMIUM MINIMAL BADGE */
+      .btn-spill-ink {
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 400;
+        font-size: 0.8rem;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: #705335 !important;
+        border: 1px solid rgba(112, 83, 53, 0.25);
+        padding: 7px 18px;
+        text-decoration: none;
+        transition: all 0.2s ease;
+        background-color: transparent;
+      }
+      .btn-spill-ink:hover {
+        background-color: #705335;
+        color: #ffffff !important;
+        border-color: #705335;
+      }
+
+      /* Main Structure Layout */
+      .journal-wrapper {
+        display: flex;
+        min-height: calc(100vh - 85px);
+      }
+
+      /* Left Sidebar Theme Selector */
+      .sidebar-panel {
+        width: 280px;
+        background-color: #fcfbfa;
+        border-right: 1px solid rgba(112, 83, 53, 0.06);
+        padding: 2.5rem 1.5rem;
+        position: sticky;
+        top: 85px;
+        height: calc(100vh - 85px);
+        overflow-y: auto;
+      }
+      .sidebar-title {
+        font-family: 'Montserrat', sans-serif;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        color: #8c7662;
+        font-size: 0.75rem;
+        font-weight: 600;
+        margin-bottom: 1.5rem;
+        padding-left: 10px;
+      }
+      .nav-vibe-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+      .nav-vibe-link {
+        font-family: 'Playfair Display', serif;
+        color: #554a42;
+        text-decoration: none;
+        font-size: 1.1rem;
+        display: block;
+        padding: 10px 14px;
+        border-radius: 4px;
+        transition: all 0.2s ease;
+        margin-bottom: 4px;
+      }
+      .nav-vibe-link:hover,
+      .nav-vibe-link.active {
+        background-color: #f4efe6;
+        color: #1a1512;
+        font-weight: 500;
+      }
+
+      /* Right Content Canvas */
+      .main-canvas {
+        flex-grow: 1;
+        background-color: #fdfcf7;
+      }
+      .dynamic-banner {
+        height: 260px;
+        background-size: cover;
+        background-position: center;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 3rem;
+        box-shadow: inset 0 0 0 2000px rgba(26, 21, 18, 0.4);
+      }
+      .banner-text {
+        font-family: 'Cinzel', serif;
+        color: #ffffff;
+        font-size: 2.5rem;
+        letter-spacing: 6px;
+        text-transform: uppercase;
+        font-weight: 400;
+      }
+
+      /* Poetry Cards Core */
+      .poems-container {
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 0 2rem 5rem 2rem;
+      }
+      .poems-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+        gap: 3rem;
+      }
+      .poem-card {
+        background: #ffffff;
+        border: 1px solid rgba(112, 83, 53, 0.05);
+        padding: 3.5rem 2.5rem;
+        box-shadow: 0 10px 35px rgba(112, 83, 53, 0.02);
+      }
+      .poem-title {
+        font-family: 'Cinzel', serif;
+        font-size: 1.8rem;
+        color: #1a1512;
+        font-weight: 500;
+        margin-bottom: 0.5rem;
+      }
+      .poem-date {
+        font-family: 'Montserrat', sans-serif;
+        font-size: 0.75rem;
+        color: #a08c7c;
+        text-transform: uppercase;
+        margin-bottom: 2rem;
+        letter-spacing: 1.5px;
+      }
+      .poem-body {
+        font-family: 'Playfair Display', serif;
+        font-size: 1.3rem;
+        line-height: 1.9;
+        color: #2e2724;
+        white-space: pre-line;
+        text-align: center;
+        font-style: italic;
+      }
+      .poem-img-wrapper {
+        background: #ffffff;
+        padding: 8px;
+        border: 1px solid rgba(112, 83, 53, 0.08);
+        margin-bottom: 1.5rem;
+      }
+      .poem-img-wrapper img {
+        width: 100%;
+        height: auto;
+      }
+
+      @media (max-width: 992px) {
+        .journal-wrapper {
+          flex-direction: column;
+        }
+        .sidebar-panel {
+          width: 100%;
+          height: auto;
+          position: relative;
+          top: 0;
+          padding: 1.5rem;
+        }
+        .poems-grid {
+          grid-template-columns: 1fr;
+        }
+        .aesthetic-header {
+          padding: 1rem 1.5rem !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar aesthetic-header sticky-top m-0">
+      <div
+        class="container-fluid p-0 d-flex align-items-center justify-content-between"
+      >
+        <a class="brand-title" href="/">Miss Poet Collection</a>
+        <div class="nav-links-right">
+          <a href="/" class="nav-item-link">Home</a>
+          <a href="/dashboard" class="btn-spill-ink">+ Spill Ink</a>
+        </div>
+      </div>
+    </nav>
+
+    <div class="journal-wrapper">
+      <aside class="sidebar-panel">
+        <div class="sidebar-title">Poem Themes</div>
+        <ul class="nav-vibe-list">
+          <li>
+            <a
+              href="/"
+              class="nav-vibe-link <%= activeCategory === 'latest' ? 'active' : '' %>"
+              >✨ All Collections</a
+            >
+          </li>
+          <% categories.forEach(function(cat) { %>
+          <li>
+            <a
+              href="/?category=<%= cat.id %>"
+              class="nav-vibe-link <%= activeCategory === cat.id ? 'active' : '' %>"
+            >
+              <%= cat.name %>
+            </a>
+          </li>
+          <% }); %>
+        </ul>
+      </aside>
+
+      <main class="main-canvas">
+        <div
+          class="dynamic-banner"
+          style="background-image: url('<%= themeBanner %>')"
+        >
+          <h1 class="banner-text text-center px-3"><%= themeName %></h1>
+        </div>
+
+        <div class="poems-container">
+          <% if (poems.length === 0) { %>
+          <div class="text-center py-5 text-muted">
+            <p class="fs-4" style="font-style: italic">
+              This chapter is empty. No verses crafted here yet.
+            </p>
+            <a
+              href="/dashboard"
+              class="btn btn-sm btn-outline-dark mt-3 text-uppercase px-4"
+              style="
+                letter-spacing: 1.5px;
+                font-family: 'Montserrat', sans-serif;
+                font-size: 0.75rem;
+              "
+              >Go Write Entry</a
+            >
+          </div>
+          <% } else { %>
+          <div class="poems-grid">
+            <% poems.forEach(function(poem) { %>
+            <article class="poem-card">
+              <h2 class="poem-title text-center"><%= poem.title %></h2>
+              <div class="poem-date text-center">Dated: <%= poem.date %></div>
+
+              <% if (poem.image) { %>
+              <div class="poem-img-wrapper">
+                <img src="<%= poem.image %>" alt="Poetry Snapshot" />
+              </div>
+              <% } %>
+
+              <div class="poem-body mx-auto"><%= poem.body %></div>
+            </article>
+            <% }); %>
+          </div>
+          <% } %>
+        </div>
+      </main>
+    </div>
+  </body>
+</html>
