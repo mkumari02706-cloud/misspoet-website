@@ -68,16 +68,18 @@
           <h1 class="banner-text text-center px-3"><%= themeName %></h1>
 
           <!-- ✅ BANNER FIX: activeCategory hidden input se POST hoga -->
-          <form action="/update-banner" method="POST" enctype="multipart/form-data" id="bannerForm"
-            style="position:absolute;right:20px;bottom:20px;z-index:10;">
-            <input type="hidden" name="activeCategory" value="<%= activeCategory %>" />
-            <input type="file" name="bannerImage" id="bannerFileInput" accept="image/*" style="display:none;"
-              onchange="document.getElementById('bannerForm').submit();" />
-            <button type="button" onclick="document.getElementById('bannerFileInput').click();"
-              style="background:#2a2421;color:#fdfcf7;border:1px solid rgba(255,255,255,0.2);padding:7px 14px;border-radius:4px;font-family:'Playfair Display',serif;font-size:0.85rem;display:flex;align-items:center;gap:6px;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,0.2);">
-              📷 Edit Banner Image
-            </button>
-          </form>
+          <% if (isAdmin) { %>
+<form action="/update-banner" method="POST" enctype="multipart/form-data" id="bannerForm"
+    style="position:absolute;right:20px;bottom:20px;z-index:10;">
+  <input type="hidden" name="activeCategory" value="<%= activeCategory %>" />
+  <input type="file" name="bannerImage" id="bannerFileInput" accept="image/*" style="display:none;"
+    onchange="document.getElementById('bannerForm').submit();" />
+  <button type="button" onclick="document.getElementById('bannerFileInput').click();"
+    style="background:#2a2421;color:#fdfcf7;border:1px solid rgba(255,255,255,0.2);padding:7px 14px;border-radius:4px;font-family:'Playfair Display',serif;font-size:0.85rem;display:flex;align-items:center;gap:6px;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,0.2);">
+    📷 Edit Banner Image
+  </button>
+</form>
+<% } %>
         </div>
 
         <div class="container px-4 px-md-5 pb-5">

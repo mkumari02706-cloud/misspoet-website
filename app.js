@@ -116,6 +116,7 @@ app.get('/', (req, res) => {
     activeCategory: selectedCatId,
     themeBanner: finalBanner,
     themeName: selectedCatId === 'all' ? 'All Collections' : currentTheme.name,
+    isAdmin: req.session && req.session.isAdminLoggedIn ? true : false,
   });
 });
  
