@@ -1,75 +1,59 @@
-<%- include('partials/header') %>
-<%- include('partials/navbar') %>
-
-<div style="max-width: 400px; margin: 6rem auto 0 auto">
-  <div class="text-center mb-5">
-    <h3 style="font-family: 'Playfair Display', serif; font-weight: 400">
-      🔒 Admin Login
-    </h3>
-    <p class="text-muted small fst-italic">
-      Unlock the entry to the poetry journal
-    </p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Creator's Entry | Miss Poet Collection 🔒</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Playfair+Display:ital,wght@0,400;0,600&display=swap" rel="stylesheet" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'EB Garamond', serif; background-color: #fdfcf7; min-height: 100vh; display: flex; flex-direction: column; }
+    .top-bar { background-color: #fcfbfa; border-bottom: 1px solid rgba(112,83,53,0.1); padding: 1.1rem 2rem; }
+    .brand { font-family: 'Playfair Display', serif; font-weight: 600; letter-spacing: 4px; color: #1a1512; text-transform: uppercase; text-decoration: none; font-size: 1rem; }
+    .login-wrap { flex: 1; display: flex; align-items: center; justify-content: center; padding: 3rem 1rem; }
+    .login-card { background: #ffffff; border: 1px solid rgba(112,83,53,0.12); border-radius: 6px; padding: 3rem 2.5rem; width: 100%; max-width: 420px; box-shadow: 0 8px 30px rgba(112,83,53,0.06); }
+    .lock-icon { font-size: 2rem; display: block; text-align: center; margin-bottom: 1rem; }
+    .login-title { font-family: 'Playfair Display', serif; font-size: 1.6rem; font-weight: 400; text-align: center; color: #1a1512; letter-spacing: 1px; margin-bottom: 0.4rem; }
+    .login-sub { text-align: center; color: #9e8e84; font-size: 0.95rem; font-style: italic; margin-bottom: 2rem; }
+    .field-label { display: block; font-size: 0.72rem; letter-spacing: 1.5px; text-transform: uppercase; color: #9e8e84; margin-bottom: 6px; }
+    .underline-input { width: 100%; background: transparent; border: none; border-bottom: 1px solid rgba(112,83,53,0.25); border-radius: 0; padding: 8px 0; font-family: 'EB Garamond', serif; font-size: 1.1rem; color: #2a2421; outline: none; transition: border-color 0.2s; }
+    .underline-input:focus { border-bottom-color: #2a2421; }
+    .underline-input::placeholder { color: #c5b9b2; font-style: italic; }
+    .error-msg { background: #fff5f5; border: 1px solid rgba(180,60,60,0.15); color: #b43c3c; border-radius: 4px; padding: 10px 14px; font-size: 0.9rem; font-style: italic; margin-bottom: 1.5rem; text-align: center; }
+    .btn-unlock { width: 100%; background-color: #2a2421; color: #fdfcf7; border: none; border-radius: 4px; padding: 12px; font-family: 'Playfair Display', serif; font-size: 0.9rem; letter-spacing: 2px; text-transform: uppercase; cursor: pointer; transition: background-color 0.2s; margin-top: 2rem; }
+    .btn-unlock:hover { background-color: #1a1512; }
+    .login-footer { text-align: center; padding: 1.5rem; color: #c5b9b2; font-size: 0.85rem; font-style: italic; border-top: 1px solid rgba(112,83,53,0.07); }
+    .back-home { color: #6e5d53; text-decoration: none; font-size: 0.85rem; display: block; text-align: center; margin-top: 1.2rem; letter-spacing: 1px; }
+    .back-home:hover { color: #1a1512; }
+  </style>
+</head>
+<body>
+  <div class="top-bar">
+    <a href="/" class="brand">Miss Poet Collection</a>
   </div>
-
-  <form action="/login" method="POST">
-    <div class="mb-4">
-      <label
-        class="text-uppercase text-muted small d-block mb-1"
-        style="font-size: 0.75rem; letter-spacing: 1.5px"
-        >Username</label
-      >
-      <input
-        type="text"
-        name="username"
-        class="form-control"
-        style="
-          border: none !important;
-          border-bottom: 1px solid #ced4da !important;
-          background-color: transparent !important;
-          border-radius: 0 !important;
-          padding: 8px 0 !important;
-          box-shadow: none !important;
-          font-size: 1.1rem;
-        "
-        placeholder="Enter your identity"
-        required
-      />
+  <div class="login-wrap">
+    <div class="login-card">
+      <span class="lock-icon">🔒</span>
+      <h2 class="login-title">Desk Authentication</h2>
+      <p class="login-sub">Verify identity to access the creator portal</p>
+      <% if (typeof error !== 'undefined' && error) { %>
+        <div class="error-msg">⚠️ <%= error %></div>
+      <% } %>
+      <form action="/login" method="POST">
+        <div class="mb-4">
+          <label class="field-label">Admin Username</label>
+          <input type="text" name="username" class="underline-input" placeholder="Enter your identity" autocomplete="off" required />
+        </div>
+        <div class="mb-2">
+          <label class="field-label">Key / Password</label>
+          <input type="password" name="password" class="underline-input" placeholder="••••••••••••" required />
+        </div>
+        <button type="submit" class="btn-unlock">Unlock Portal 🗝️</button>
+      </form>
+      <a href="/" class="back-home">← Return to Collection</a>
     </div>
-
-    <div class="mb-5">
-      <label
-        class="text-uppercase text-muted small d-block mb-1"
-        style="font-size: 0.75rem; letter-spacing: 1.5px"
-        >Password</label
-      >
-      <input
-        type="password"
-        name="password"
-        class="form-control"
-        style="
-          border: none !important;
-          border-bottom: 1px solid #ced4da !important;
-          background-color: transparent !important;
-          border-radius: 0 !important;
-          padding: 8px 0 !important;
-          box-shadow: none !important;
-          font-size: 1.1rem;
-        "
-        placeholder="••••••••"
-        required
-      />
-    </div>
-
-    <div class="text-center">
-      <button
-        type="submit"
-        class="btn btn-dark rounded-0 w-100 py-2 text-uppercase small"
-        style="letter-spacing: 2px; background-color: #2c2520"
-      >
-        Authenticate Entry
-      </button>
-    </div>
-  </form>
-</div>
-
-<%- include('partials/footer') %>
+  </div>
+  <div class="login-footer">Miss Poet Collection &mdash; Every word, a world. ✨</div>
+</body>
+</html>

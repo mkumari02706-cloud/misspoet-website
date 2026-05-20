@@ -1,104 +1,74 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Edit Verse | Miss Poet Collection 📜</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Playfair+Display:ital,wght@0,400;0,600&display=swap" rel="stylesheet" />
-  </head>
-  <body style="font-family: 'EB Garamond', serif; background-color: #fdfcf7; color: #2a2421;">
-
-    <nav class="navbar navbar-expand-lg sticky-top py-3" style="background-color: #fcfbfa; border-bottom: 1px solid rgba(112,83,53,0.1); letter-spacing: 2px;">
-      <div class="container-fluid px-4">
-        <a class="navbar-brand" href="/" style="font-family: 'Playfair Display', serif; font-weight: 600; letter-spacing: 4px; color: #1a1512; text-transform: uppercase; text-decoration: none;">Miss Poet Collection</a>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Edit Verse | Miss Poet Collection 📜</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Playfair+Display:ital,wght@0,400;0,600&display=swap" rel="stylesheet" />
+  <style>
+    body { font-family: 'EB Garamond', serif; background-color: #fdfcf7; color: #2a2421; }
+    .aesthetic-header { background-color: #fcfbfa; border-bottom: 1px solid rgba(112,83,53,0.1); }
+    .brand-title { font-family: 'Playfair Display', serif; font-weight: 600; letter-spacing: 4px; color: #1a1512; text-transform: uppercase; text-decoration: none; }
+    .form-control, .form-select { background-color: #fdfcf7; border: 1px solid rgba(112,83,53,0.15); border-radius: 4px; font-size: 1.05rem; }
+    .form-control:focus, .form-select:focus { background-color: #fff; border-color: #6e5d53; box-shadow: none; }
+    .field-label { font-size: 0.72rem; letter-spacing: 1.5px; text-transform: uppercase; color: #9e8e84; display: block; margin-bottom: 6px; }
+    .btn-save { background-color: #2a2421; color: #fdfcf7; border: none; border-radius: 4px; padding: 10px 32px; font-family: 'Playfair Display', serif; letter-spacing: 2px; text-transform: uppercase; font-size: 0.9rem; transition: background 0.2s; cursor: pointer; }
+    .btn-save:hover { background-color: #1a1512; }
+    .back-link { color: #6e5d53; text-decoration: none; font-size: 0.88rem; letter-spacing: 1px; text-transform: uppercase; }
+    .back-link:hover { color: #1a1512; }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg aesthetic-header sticky-top py-3">
+    <div class="container-fluid px-4">
+      <a class="navbar-brand brand-title" href="/">Miss Poet Collection</a>
+      <div class="d-flex gap-4 ms-auto text-uppercase small" style="letter-spacing:1.5px;font-size:0.8rem">
+        <a href="/" class="text-decoration-none text-muted">Home</a>
+        <a href="/dashboard" class="text-decoration-none text-dark fw-medium">✒️ Creator's Desk</a>
       </div>
-    </nav>
-
-    <div class="container my-5" style="max-width: 600px">
-      <div class="mb-4">
-        <a href="/dashboard" class="text-decoration-none" style="color: #6e5d53; font-size: 0.95rem; letter-spacing: 1px; text-transform: uppercase;">← Cancel & Back to Desk</a>
-      </div>
-
-      <h2 class="fw-normal mb-4 text-center" style="font-family: 'Playfair Display', serif;">Edit Your Verse</h2>
-
-      <form action="/update/<%= poem.id %>" method="POST" class="mt-4" enctype="multipart/form-data">
-
-        <div class="mb-4">
-          <label class="text-uppercase text-muted small tracking-widest d-block mb-1" style="font-size: 0.75rem; letter-spacing: 1px;">Title of the Verse</label>
-          <input
-            type="text"
-            name="title"
-            class="form-control"
-            style="background-color: #fdfcf7; border: 1px solid rgba(112, 83, 53, 0.15); border-radius: 4px; font-size: 1.1rem;"
-            value="<%= poem.title %>"
-            required
-          />
-        </div>
-
-        <div class="mb-4">
-          <label class="text-uppercase text-muted small tracking-widest d-block mb-1" style="font-size: 0.75rem; letter-spacing: 1px;">Category / Mood</label>
-          <select name="category" class="form-control" style="background-color: #fdfcf7; border: 1px solid rgba(112, 83, 53, 0.15); border-radius: 4px; font-size: 1.1rem;">
-            <% categories.forEach(cat => { %>
-              <option value="<%= cat.id %>" <%= poem.category === cat.id ? 'selected' : '' %>>
-                <%= cat.name %>
-              </option>
-            <% }) %>
-          </select>
-        </div>
-
-        <div class="mb-4">
-          <label class="text-uppercase text-muted small tracking-widest d-block mb-1" style="font-size: 0.75rem; letter-spacing: 1px;">Update Visual (Optional)</label>
-          <input
-            type="file"
-            name="poemImage"
-            class="form-control"
-            style="background-color: #fdfcf7; border: 1px solid rgba(112, 83, 53, 0.15); border-radius: 4px;"
-            accept="image/*"
-          />
-          <% if(poem.image) { %>
-            <div class="mt-2 text-muted small" style="font-style: italic;">
-              Current image: <a href="<%= poem.image %>" target="_blank" style="color: #6e5d53;">View Image</a>
-            </div>
-          <% } %>
-        </div>
-
-        <div class="mb-4">
-          <label class="text-uppercase text-muted small tracking-widest d-block mb-2" style="font-size: 0.75rem; letter-spacing: 1px;">Pour your heart out</label>
-          <textarea
-            name="body"
-            rows="10"
-            class="form-control"
-            style="
-              border: 1px solid rgba(112, 83, 53, 0.15);
-              background-color: #fffdf9;
-              border-radius: 4px;
-              font-family: 'Playfair Display', serif;
-              font-style: italic;
-              padding: 15px;
-              font-size: 1.1rem;
-              line-height: 1.8;
-              color: #3d352e;
-            "
-            required
-          ><%= poem.body %></textarea>
-        </div>
-
-        <div class="text-center mt-5">
-          <button
-            type="submit"
-            class="btn btn-dark rounded-0 px-5 py-2 text-uppercase small"
-            style="letter-spacing: 2px; background-color: #2c2520; border: none;"
-          >
-            Save Changes
-          </button>
-          <a href="/dashboard" class="btn btn-outline-secondary rounded-0 px-4 py-2 ms-3 text-uppercase small" style="letter-spacing: 2px;">
-            Cancel
-          </a>
-        </div>
-
-      </form>
     </div>
+  </nav>
 
-  </body>
+  <div class="container my-5" style="max-width:620px">
+    <div class="mb-4">
+      <a href="/dashboard" class="back-link">← Cancel & Back to Desk</a>
+    </div>
+    <h2 class="fw-normal mb-5 text-center" style="font-family:'Playfair Display',serif;letter-spacing:1px">Edit Your Verse</h2>
+
+    <form action="/update/<%= poem.id %>" method="POST" enctype="multipart/form-data">
+      <div class="mb-4">
+        <label class="field-label">Title of the Verse</label>
+        <input type="text" name="title" class="form-control" value="<%= poem.title %>" required />
+      </div>
+      <div class="mb-4">
+        <label class="field-label">Category / Mood</label>
+        <select name="category" class="form-select">
+          <% categories.forEach(function(cat) { %>
+            <option value="<%= cat.id %>" <%= poem.category === cat.id ? 'selected' : '' %>><%= cat.name %></option>
+          <% }); %>
+        </select>
+      </div>
+      <div class="mb-4">
+        <label class="field-label">Update Visual (Optional)</label>
+        <input type="file" name="poemImage" class="form-control" accept="image/*" />
+        <% if (poem.image) { %>
+          <p class="mt-1" style="font-style:italic;color:#9e8e84;font-size:0.88rem">
+            Current image: <a href="<%= poem.image %>" target="_blank" style="color:#6e5d53;">View Image</a> &nbsp;(Upload new to replace)
+          </p>
+        <% } %>
+      </div>
+      <div class="mb-4">
+        <label class="field-label">Pour your heart out</label>
+        <textarea name="body" rows="10" class="form-control"
+          style="font-family:'Playfair Display',serif;font-style:italic;line-height:1.8;font-size:1.05rem;color:#3d352e;background-color:#fffdf9;"
+          required><%= poem.body %></textarea>
+      </div>
+      <div class="text-center mt-5 d-flex justify-content-center gap-3">
+        <button type="submit" class="btn-save">Save Changes ✒️</button>
+        <a href="/dashboard" class="btn btn-outline-secondary rounded-0 px-4 py-2 text-uppercase small" style="letter-spacing:2px">Cancel</a>
+      </div>
+    </form>
+  </div>
+</body>
 </html>
