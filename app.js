@@ -102,8 +102,8 @@ app.get('/', (req, res) => {
     SYSTEM_CATEGORIES.find((c) => c.id.toLowerCase() === selectedCatId.toLowerCase()) || SYSTEM_CATEGORIES[0];
  
   const finalBanner = customBanners[selectedCatId.toLowerCase()] || currentTheme.banner;
- 
-  let filteredPoems = poemsArray;
+const isAdmin = req.session && req.session.isAdminLoggedIn ? true : false;
+let filteredPoems = isAdmin ? poemsArray : poemsArray.filter(p => p.isPublic === true);
   if (selectedCatId && selectedCatId !== 'all') {
     filteredPoems = poemsArray.filter(
       (p) => p.category && p.category.trim().toLowerCase() === selectedCatId.trim().toLowerCase()
@@ -165,14 +165,15 @@ app.get('/dashboard', requireAdminLogin, (req, res) => {
 // ─────────────────────────────────────────
 app.post('/add-poem', requireAdminLogin, uploadInstance.single('poemImage'), (req, res) => {
   const poemsArray = getPoems();
-  const newPoem = {
+ const newPoem = {
     id: Date.now().toString(),
     title: req.body.title || 'Untitled Verse',
     category: req.body.category || 'latest',
     body: req.body.body || '',
     image: req.file ? `/uploads/${req.file.filename}` : null,
     date: new Date().toISOString().split('T')[0],
-  };
+    isPublic: req.body.isPublic === 'on' ? true : false,
+};
   poemsArray.unshift(newPoem);
   savePoems(poemsArray);
   res.redirect('/dashboard');
